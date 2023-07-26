@@ -17,28 +17,32 @@
     - `public final` 로 선언해도 불변객체가 되지만, 내부 표현을 바꿀 수 없어서 추천하지 않는다.
 - 자신 외에는 내부의 가변 컴포넌트에 접근하지 못하게 한다.
 
-### 💎  예시
+### 💎  함수형 프로그래밍
 
-```java
-public final class Complex {
-    private final double re;
-    private final double im;
+: 피연산자를 받아서 결과에 반영하지만, 피연산자 자체는 변경되지 않고 그대로다.
 
-    public Complex(double re, double im) {
-        this.re = re;
-        this.im = im;
+- 예시
+
+    ```java
+    public final class Complex {
+    	private final double re;
+    	private final double im;
+    
+    	public Complex(double re, double im) {
+    		this.re = re;
+    		this.im = im;
+    	}
+    
+    	public Complex plus(Complex c) {
+    		return new Complex(re + c.re, im +c.im);
+    	}
+    
     }
+    ```
 
-    public Complex plus(Complex c) {
-        return new Complex(re + c.re, im +c.im);
-    }
-
-}
-```
-
-- plus 메소드는 객체를 받아서 새롭게 객체 생성을 한 후 반환한다. == 함수형 프로그래밍
-    - 함수형 프로그래밍: 피연산자를 받아서 결과에 반영하지만, 피연산자 자체는 변경되지 않고 그대로다.
-    - 절차적(명령형)프로그래밍: 피연산자인 본인을 수정해서 값이 변경된다.
+    - `plus` 메소드는 객체를 받아서 새롭게 객체 생성을 한 후 반환한다.
+- 절차적(명령형)프로그래밍
+    - 피연산자인 본인을 수정해서 값이 변경된다.
 
 ### 💎 불변객체는 단순하다.
 
@@ -46,18 +50,18 @@ public final class Complex {
 - 여러 쓰레드가 동시에 사용해도 훼손되지 않는다. → 안심하고 공유할 수 있다.
 - 불변 클래스는 한번 생성해서 계속해서 재활용한다.
 - 불변클래스는 clone 이나 복사는 하지않는게 좋다. 어차피 복사해도 동일객체라 의미가 없다.
-- 불변클래스는 자주 사용되는 인스턴스는 중복생성하지 않게 정적팩토리를 제공한다.
+- 불변클래스는 자주 사용되는 인스턴스는 중복 생성하지 않게 정적팩토리를 제공한다.
 
 ### 💎 불변객체는 불변객체끼리 내부데이터를 공유할 수 있다.
 
 ```java
 public class BigInteger extends ... {
-final int signum;
-final int[] mag;
-// ... 생략
-public BigInteger negate() {
+    final int signum;
+    final int[] mag;
+    // ... 생략
+    public BigInteger negate() {
         return new BigInteger(this.mag, -this.signum);
-        }
+    }
 ```
 
 - `negate`메소드는 `mag` 값을 그대로 사용하고 있다. → 불변객체라 그대로 사용한다.
@@ -72,7 +76,7 @@ public BigInteger negate() {
 
 - 값이 달라지면 새롭게 객체를 생성해야한다.
     - 가변동반 클래스를 제공한다.
-        - 미리 예측해 다단계 연산들은 `private package`로 기본 제공한다.
+        - 미리 예측해 다단계 연산들은 `private package`로  기본 제공한다.
     - 예측이 불가하다면,
         - 불변클래스를 public으로 제공한다.
         - 예) 불변객체- `String`, 가변동반클래스- `StringBuilder`
@@ -81,24 +85,26 @@ public BigInteger negate() {
 
 ```java
 public class Complex {
-    private final double re;
-    private final double im;
+	private final double re;
+	private final double im;
 
-    private Complex(double re, double im) { // 생성자를 Private로 선언
-        this.re = re;
-        this.im = im;
-    }
+	 private Complex(double re, double im) { // 생성자를 Private로 선언
+		this.re = re;
+		this.im = im;
+	}
 
-    public static Complex valueOf(double re, double im) {
-        return new Complex(re, im);
-    }
+	public static Complex valueOf(double re, double im) {
+		return new Complex(re, im);
+	}
 
 }
 ```
+
 - 모든 생성자를 `private` 혹은 `package-private`로 만들고
 - `public` 정적메소드를 만든다.
 
 ### 💎 정리
+
 - getter가 있다고해서 setter도 있을필요는 없다.
 - 꼭 필요한 경우가 아니면 불변으로 짠다.
 - 변경할수있는 부분은 최소한으로 줄인다.
