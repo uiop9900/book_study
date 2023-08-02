@@ -161,7 +161,7 @@ public interface SingSongwriter extends Singer, SongWriter {
         }
     }
     
-    public class BaseballPlayer extends AbstractStudy implements Study {
+    public class JavaStudy extends AbstractStudy implements Study {
     
         @Override 
         void 사이드를_하자() { 
