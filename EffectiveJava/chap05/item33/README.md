@@ -85,5 +85,3 @@ static Annotation getAnnotation(AnnotatedElement element,
 		annotationType.asSubclass(Annotation.class));
 }
 ```
-
-d
