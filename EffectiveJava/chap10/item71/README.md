@@ -24,7 +24,7 @@
     }
     ```
 
-      2. 예시 - 리팩토링 후 
+  2. 예시 - 리팩토링 후 
 
     ```java
     if (obj.actionPermitted(args)) { // 예외를 확인하고 
